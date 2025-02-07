@@ -8,7 +8,7 @@ const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
 export const checkoutSessionRouter = createTRPCRouter({
   create: publicProcedure
-    .input(comicsSelectSchema.array().nonempty())
+    .input(comicsSelectSchema.array().min(1))
     .mutation(async ({ input }) => {
       const shoppingCartItems = input;
       const session = await stripe.checkout.sessions.create({

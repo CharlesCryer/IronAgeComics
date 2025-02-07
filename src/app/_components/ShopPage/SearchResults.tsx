@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { type comicSelectModel } from "@/server/db/schema";
 import ProductCard from "./ProductCard";
+import image_icon from "@/../public/image_icon.svg";
 import { api } from "@/trpc/react";
 const SearchResults = () => {
   const searchParams = useSearchParams();
@@ -40,7 +41,8 @@ const SearchResults = () => {
               <ProductCard
                 title={entry.name}
                 price={entry.price}
-                imageSrc={""}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                imageSrc={image_icon}
               />
               <button onClick={() => addToCart(entry)}>add to cart</button>
             </div>

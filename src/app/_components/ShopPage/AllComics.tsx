@@ -3,6 +3,7 @@ import { useShoppingCartContext } from "@/context/shoppingCartContext";
 import ProductCard from "./ProductCard";
 import { type comicSelectModel } from "@/server/db/schema";
 import { api } from "@/trpc/react";
+import image_icon from "@/../public/image_icon.svg";
 const SearchResults = () => {
   const comicEntries = api.comic.getAll.useQuery().data;
 
@@ -24,7 +25,8 @@ const SearchResults = () => {
               <ProductCard
                 title={entry.name}
                 price={entry.price}
-                imageSrc={""}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                imageSrc={image_icon}
               />
               <button onClick={() => addToCart(entry)}>add to cart</button>
             </div>

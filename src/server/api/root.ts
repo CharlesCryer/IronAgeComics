@@ -1,5 +1,6 @@
 import { comicRouter } from "@/server/api/routers/comic";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
+import { checkoutSessionRouter } from "./routers/checkoutSession";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   comic: comicRouter,
+  checkoutSession: checkoutSessionRouter,
 });
 
 // export type definition of API

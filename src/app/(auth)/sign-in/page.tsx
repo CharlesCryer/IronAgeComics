@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { z } from "zod";
+import { type z } from "zod";
 import {
   Form,
   FormControl,
@@ -24,24 +24,7 @@ import { Input } from "@/lib/shadcn/components/ui/input";
 import { Button } from "@/lib/shadcn/components/ui/button";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/better-auth/auth-client";
-
-export const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters long" })
-    .max(50, { message: "Name cannot exceed 50 characters" }),
-
-  email: z
-    .string()
-    .email({ message: "Please enter a valid email address" })
-    .min(2)
-    .max(50),
-
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" })
-    .max(50, { message: "Password cannot exceed 50 characters" }),
-});
+import formSchema from "../form-schema";
 
 const signInFormSchema = formSchema.pick({
   email: true,
@@ -131,7 +114,7 @@ export default function SignIn() {
       </CardContent>
 
       <CardFooter className="flex justify-center">
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Don&apos;t have an account yet?{" "}
           <Link href="/sign-up" className="text-primary hover:underline">
             Sign up

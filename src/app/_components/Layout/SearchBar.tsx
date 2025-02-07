@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { type ChangeEvent, type FormEvent, useState } from "react";
 
 const SearchBar = () => {
   // Stores text in searchbar in state.
