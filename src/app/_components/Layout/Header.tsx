@@ -12,8 +12,12 @@ const Header = () => {
       <div className="hidden items-center sm:flex">
         <ViewCartButton />
       </div>
-      <button className="hidden sm:block">Login</button>
-      <button className="hidden sm:block">register</button>
+      <Link href={"/sign-in"} className="hidden sm:block">
+        Login
+      </Link>
+      <Link href={"/sign-up"} className="hidden sm:block">
+        register
+      </Link>
       <button className="sm:hidden">sidebar</button>
     </header>
   );
