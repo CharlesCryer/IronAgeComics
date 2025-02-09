@@ -22,7 +22,6 @@ const SearchResults = () => {
 
   // Adds a new item to the shoppingcart by adding it to the shoppingCart context
   const addToCart = (newComic: comicSelectModel) => {
-    console.log(process.env.NODE_ENV);
     if (currentShoppingCart.some((comic) => comic.id == newComic.id)) {
       console.log("item already added");
     } else {
