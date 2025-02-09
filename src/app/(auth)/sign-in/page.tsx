@@ -56,7 +56,7 @@ export default function SignIn() {
           form.reset();
         },
         onError: (ctx) => {
-          alert(ctx.error.message);
+          alert(ctx.error);
           setIsSubmitting(false);
         },
       },
