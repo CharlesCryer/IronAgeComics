@@ -25,6 +25,8 @@ import { Button } from "@/lib/shadcn/components/ui/button";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/better-auth/auth-client";
 import formSchema from "../form-schema";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const signInFormSchema = formSchema.pick({
   email: true,
@@ -39,8 +41,9 @@ export default function SignIn() {
       password: "",
     },
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
+    setIsSubmitting(true);
     const { email, password } = values;
     await authClient.signIn.email(
       {
@@ -49,23 +52,19 @@ export default function SignIn() {
         callbackURL: "/",
       },
       {
-        onRequest: (ctx) => {
-          console.log("request", ctx);
-        },
-        onSuccess: (ctx) => {
-          console.log("Success", ctx);
+        onSuccess: () => {
           form.reset();
         },
         onError: (ctx) => {
-          console.log("error", ctx);
           alert(ctx.error.message);
+          setIsSubmitting(false);
         },
       },
     );
   }
 
   return (
-    <Card className="mx-auto w-full max-w-md">
+    <Card className="mx-auto my-24 w-full max-w-md">
       <CardHeader>
         <CardTitle>Sign In</CardTitle>
         <CardDescription>
@@ -83,7 +82,11 @@ export default function SignIn() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="john@mail.com" {...field} />
+                    <Input
+                      placeholder="john@mail.com"
+                      autoComplete="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,6 +102,7 @@ export default function SignIn() {
                     <Input
                       type="password"
                       placeholder="Enter your password"
+                      autoComplete="password"
                       {...field}
                     />
                   </FormControl>
@@ -106,7 +110,10 @@ export default function SignIn() {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
+            <Button className="w-full" type="submit" disabled={isSubmitting}>
+              <Loader2
+                className={`animate-spin ${isSubmitting ? "block" : "hidden"}`}
+              />
               Submit
             </Button>
           </form>

@@ -2,7 +2,13 @@ import React from "react";
 import SearchBar from "./SearchBar";
 import ViewCartButton from "./ViewCartButton";
 import Link from "next/link";
-const Header = () => {
+import { auth } from "@/lib/better-auth/auth";
+import { Button } from "@/lib/shadcn/components/ui/button";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+const Header = async () => {
+  const session = await auth.api.getSession({ headers: await headers() });
+
   return (
     <header className="mx-[10%] flex justify-between gap-2 p-2">
       <Link href={"/home"}>
@@ -12,12 +18,26 @@ const Header = () => {
       <div className="hidden items-center sm:flex">
         <ViewCartButton />
       </div>
-      <Link href={"/sign-in"} className="hidden sm:block">
-        Login
-      </Link>
-      <Link href={"/sign-up"} className="hidden sm:block">
-        register
-      </Link>
+      {!session ? (
+        <>
+          <Link href={"/sign-in"} className="hidden sm:block">
+            Login
+          </Link>
+          <Link href={"/sign-up"} className="hidden sm:block">
+            register
+          </Link>
+        </>
+      ) : (
+        <form
+          action={async () => {
+            "use server";
+            await auth.api.signOut({ headers: await headers() });
+            redirect("/");
+          }}
+        >
+          <Button>Sign out</Button>
+        </form>
+      )}
       <button className="sm:hidden">sidebar</button>
     </header>
   );

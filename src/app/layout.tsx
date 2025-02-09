@@ -2,7 +2,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import Footer from "./_components/Layout/Footer";
 import Header from "./_components/Layout/Header";
 import "@/styles/globals.css";
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

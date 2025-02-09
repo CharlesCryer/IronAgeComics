@@ -1,5 +1,5 @@
 "use client";
-
+import { Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -25,6 +25,8 @@ import { Button } from "@/lib/shadcn/components/ui/button";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/better-auth/auth-client";
 import formSchema from "../form-schema";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const signUpFormSchema = formSchema.pick({
   name: true,
@@ -41,8 +43,10 @@ export default function SignUp() {
       password: "",
     },
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
+    setIsSubmitting(true);
     const { name, email, password } = values;
     await authClient.signUp.email(
       {
@@ -52,21 +56,26 @@ export default function SignUp() {
         callbackURL: "/sign-in",
       },
       {
-        onRequest: (ctx) => {
-          console.log("request", ctx);
-        },
-        onSuccess: (ctx) => {
-          console.log("success", ctx);
+        onRequest: undefined,
+        onSuccess: () => {
+          form.reset();
+          router.push("/sign-in");
         },
         onError: (ctx) => {
-          console.log("error", ctx);
+          if (ctx.error.code === "USER_ALREADY_EXISTS") {
+            alert("User already exists");
+          } else {
+            alert("Unknown error occured, please try again");
+          }
+          router.refresh();
+          setIsSubmitting(false);
         },
       },
     );
   }
 
   return (
-    <Card className="mx-auto w-full max-w-md">
+    <Card className="mx-auto my-24 w-full max-w-md">
       <CardHeader>
         <CardTitle>Sign Up</CardTitle>
         <CardDescription>Create your account to get started.</CardDescription>
@@ -82,7 +91,11 @@ export default function SignUp() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="john doe" {...field} />
+                    <Input
+                      placeholder="john doe"
+                      autoComplete="name"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,7 +108,11 @@ export default function SignUp() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="john@mail.com" {...field} />
+                    <Input
+                      placeholder="john@mail.com"
+                      autoComplete="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -111,6 +128,7 @@ export default function SignUp() {
                     <Input
                       type="password"
                       placeholder="Enter your password"
+                      autoComplete="password"
                       {...field}
                     />
                   </FormControl>
@@ -118,7 +136,10 @@ export default function SignUp() {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
+            <Button className="w-full" type="submit" disabled={isSubmitting}>
+              <Loader2
+                className={`animate-spin ${isSubmitting ? "block" : "hidden"}`}
+              />
               Submit
             </Button>
           </form>
