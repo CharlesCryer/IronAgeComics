@@ -9,13 +9,6 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
     STRIPE_SECRET_KEY: z.string(),
-    BETTER_AUTH_SECRET: z.string(),
-    BETTER_AUTH_URL: z.string().url(),
-    AWS_BUCKET_NAME: z.string(),
-    AWS_REGION: z.string(),
-    AWS_ACCESS_KEY_ID: z.string(),
-    AWS_SECRET_ACCESS_KEY: z.string(),
-    CLIENT_URL_ORIGIN: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -29,6 +22,7 @@ export const env = createEnv({
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
     NEXT_PUBLIC_STRIPE_KEY: z.string(),
+    NEXT_PUBLIC_CLIENT_URL_ORIGIN: z.string(),
   },
 
   /**
@@ -38,15 +32,9 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
-    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
     NEXT_PUBLIC_STRIPE_KEY: process.env.NEXT_PUBLIC_STRIPE_KEY,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
-    AWS_REGION: process.env.AWS_REGION,
-    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-    CLIENT_URL_ORIGIN: process.env.CLIENT_URL_ORIGIN,
+    NEXT_PUBLIC_CLIENT_URL_ORIGIN: process.env.NEXT_PUBLIC_CLIENT_URL_ORIGIN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
