@@ -24,7 +24,7 @@ export const checkoutSessionRouter = createTRPCRouter({
           quantity: 1,
         })),
         mode: "payment",
-        return_url: `${env.CLIENT_URL_ORIGIN}/return?session_id={CHECKOUT_SESSION_ID}`,
+        return_url: `${env.NEXT_PUBLIC_CLIENT_URL_ORIGIN}/return?session_id={CHECKOUT_SESSION_ID}`,
       });
       if (session.client_secret === null) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
