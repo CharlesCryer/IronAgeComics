@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { type InferInsertModel, type InferSelectModel, sql } from "drizzle-orm";
+import { type InferSelectModel, sql } from "drizzle-orm";
 import {
   boolean,
   date,
@@ -66,7 +66,6 @@ export const comicsSelectSchema = createSelectSchema(comics);
  * because values with defaults are left optional and values generated on the database are not included
  */
 export type comicSelectModel = InferSelectModel<typeof comics>;
-export type comicInsertModel = InferInsertModel<typeof comics>;
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),

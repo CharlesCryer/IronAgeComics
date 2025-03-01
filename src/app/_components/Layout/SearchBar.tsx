@@ -1,4 +1,5 @@
 "use client";
+import { Input } from "@/lib/shadcn/components/ui/input";
 import { useRouter } from "next/navigation";
 import React, { type ChangeEvent, type FormEvent, useState } from "react";
 
@@ -18,8 +19,8 @@ const SearchBar = () => {
 
   return (
     <form onSubmit={handleSearch} className="flex min-w-0 grow">
-      <input
-        className="mx-[10%] flex grow rounded-md py-2"
+      <Input
+        className="mx-[10%] flex grow"
         value={searchInputValue}
         placeholder={"search"}
         onChange={handleInputChange}

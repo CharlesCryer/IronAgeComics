@@ -1,10 +1,11 @@
+import { Button } from "@/lib/shadcn/components/ui/button";
 import Link from "next/link";
 
 const ViewCartButton = () => {
   return (
     <div>
       <Link href={"/cart"} className="flex items-center">
-        {"View shopping cart"}
+        <Button>{"View shopping cart"}</Button>
       </Link>
     </div>
   );
