@@ -1,7 +1,8 @@
 todo
 
 - [ ] add edit profile page
-  - [ ] user info name, email, password
+  - [x] user info name, email, password
+  - [x] improve sign in error message for incorrect password
   - [ ] add email verification
   - [ ] view wishlist
   - [ ] order history
