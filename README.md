@@ -3,6 +3,7 @@ todo
 - [ ] add edit profile page
   - [x] user info name, email, password
   - [x] improve sign in error message for incorrect password
+  - [ ] add error message for incorrect password input on change-password page
   - [ ] add email verification
   - [ ] view wishlist
   - [ ] order history

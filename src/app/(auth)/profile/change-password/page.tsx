@@ -64,12 +64,30 @@ export default function ChangePasswordPage() {
   async function onSubmit(values: z.infer<typeof changePasswordFormSchema>) {
     setIsSubmitting(true);
     const { oldPasswordInput, newPasswordInput } = values;
-    await authClient.changePassword({
-      newPassword: newPasswordInput,
-      currentPassword: oldPasswordInput,
-      revokeOtherSessions: true,
-    });
-    router.push("/home");
+    await authClient.changePassword(
+      {
+        newPassword: newPasswordInput,
+        currentPassword: oldPasswordInput,
+        revokeOtherSessions: true,
+      },
+      {
+        onError: (ctx) => {
+          if (ctx.error.code == "INVALID_PASSWORD") {
+            form.setError("oldPasswordInput", {
+              type: "manual",
+              message: "Incorrect password.",
+            });
+            setIsSubmitting(false);
+          } else {
+            alert("Unknown error occured, please try again later");
+            router.refresh();
+          }
+        },
+        onSuccess: () => {
+          router.push("/home");
+        },
+      },
+    );
   }
 
   return (
