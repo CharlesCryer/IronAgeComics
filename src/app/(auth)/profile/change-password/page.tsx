@@ -1,7 +1,6 @@
 "use client";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -51,7 +50,7 @@ const changePasswordFormSchema = z
       }
     },
   );
-export default function changePasswordPage() {
+export default function ChangePasswordPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof changePasswordFormSchema>>({

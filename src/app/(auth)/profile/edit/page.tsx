@@ -30,8 +30,8 @@ export default function EditProfilePage() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const newEmail = formData.get("email")?.toString();
-    const newName = formData.get("name")?.toString();
+    const newEmail = formData.get("email") as string;
+    const newName = formData.get("name") as string;
     if (newEmail === undefined || newName === undefined) {
       alert("Unknown error occured");
       router.push("/home");
