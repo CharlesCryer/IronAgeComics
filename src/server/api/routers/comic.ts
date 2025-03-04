@@ -23,4 +23,24 @@ export const comicRouter = createTRPCRouter({
         .from(comics)
         .where(eq(comics.sellerId, input));
     }),
+  create: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        price: z.string(),
+        sellerId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const newComic = await ctx.db
+        .insert(comics)
+        .values({
+          name: input.name,
+          price: input.price,
+          sellerId: input.sellerId,
+        })
+        .returning();
+
+      return newComic;
+    }),
 });

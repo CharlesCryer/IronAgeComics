@@ -2,6 +2,8 @@
 import ProductCard from "@/app/_components/ShopPage/ProductCard";
 import { api } from "@/trpc/react";
 import image_icon from "@/../public/image_icon.svg";
+import { Button } from "@/lib/shadcn/components/ui/button";
+import Link from "next/link";
 
 export default function CurrentListings({ userId }: { userId: string }) {
   const query = api.comic.getAllFromSellerId.useQuery(userId);
@@ -24,6 +26,11 @@ export default function CurrentListings({ userId }: { userId: string }) {
             </div>
           );
         })}{" "}
+      </div>
+      <div className="flex justify-center">
+        <Link href={"/admin/add-comic"}>
+          <Button>Add new</Button>
+        </Link>
       </div>
     </div>
   );
