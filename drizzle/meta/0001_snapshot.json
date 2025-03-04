@@ -1,6 +1,6 @@
 {
-  "id": "a90314f2-f2e4-4ff0-bf4c-b6b6abb4e3fe",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "5536cec2-ed39-488d-a631-9a8d8752a64b",
+  "prevId": "a90314f2-f2e4-4ff0-bf4c-b6b6abb4e3fe",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -431,7 +431,7 @@
           "name": "has_administrator_privileges",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         }
       },

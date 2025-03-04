@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { comics } from "@/server/db/schema";
-import { like } from "drizzle-orm";
+import { like, eq } from "drizzle-orm";
 
 export const comicRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -15,4 +15,12 @@ export const comicRouter = createTRPCRouter({
       .from(comics)
       .where(like(comics.name, `%${input}%`));
   }),
+  getAllFromSellerId: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return await ctx.db
+        .select()
+        .from(comics)
+        .where(eq(comics.sellerId, input));
+    }),
 });

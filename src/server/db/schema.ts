@@ -15,67 +15,22 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { createSelectSchema } from "drizzle-zod";
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
-export const createTable = pgTableCreator((name) => `ironaget3v2_${name}`);
 
-export const comics = createTable(
-  "Comic",
-  {
-    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-    name: varchar("name", { length: 256 }).notNull(),
-    description: text("description"),
-    imageUrl: varchar("image_url", { length: 512 }),
-    price: numeric("price", { precision: 10, scale: 2 }).notNull(),
-    currency: varchar("currency", { length: 3 }).default("USD").notNull(),
-    stock: integer("stock").default(0).notNull(),
-    author: varchar("author", { length: 256 }),
-    publisher: varchar("publisher", { length: 256 }),
-    releaseDate: date("release_date"),
-    genre: varchar("genre", { length: 128 }),
-    series: varchar("series", { length: 256 }),
-    issueNumber: integer("issue_number"),
-    discount: numeric("discount", { precision: 5, scale: 2 }).default(sql`0`),
-    rating: numeric("rating", { precision: 3, scale: 2 }).default(sql`0`),
-    bestseller: boolean("bestseller").default(false),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date(),
-    ),
-  },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-    genreIndex: index("genre_idx").on(example.genre),
-  }),
-);
-
-/**
- * Zod select schema
- */
-export const comicsSelectSchema = createSelectSchema(comics);
-
-/**
- * comicSelectModel is best for applcation wide type usage as it includes default values and database generated values
- * comicInsertModel is only useful for inserting into the database
- * because values with defaults are left optional and values generated on the database are not included
- */
-export type comicSelectModel = InferSelectModel<typeof comics>;
-
+// Better auth code
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").notNull(),
-  image: text("image"),
+  image: text("image").default(sql`NULL`),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
+  hasAdministratorPrivileges: boolean("has_administrator_privileges")
+    .notNull()
+    .default(false),
 });
+
+export type userSelectModel = InferSelectModel<typeof user>;
 
 export const session = pgTable("session", {
   id: text("id").primaryKey(),
@@ -116,3 +71,52 @@ export const verification = pgTable("verification", {
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
 });
+
+// Comic schemas
+
+export const comics = pgTable(
+  "Comic",
+  {
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    name: varchar("name", { length: 256 }).notNull(),
+    description: text("description"),
+    imageUrl: varchar("image_url", { length: 512 }),
+    price: numeric("price", { precision: 10, scale: 2 }).notNull(),
+    currency: varchar("currency", { length: 3 }).default("USD").notNull(),
+    stock: integer("stock").default(0).notNull(),
+    author: varchar("author", { length: 256 }),
+    publisher: varchar("publisher", { length: 256 }),
+    releaseDate: date("release_date"),
+    genre: varchar("genre", { length: 128 }),
+    series: varchar("series", { length: 256 }),
+    issueNumber: integer("issue_number"),
+    discount: numeric("discount", { precision: 5, scale: 2 }).default(sql`0`),
+    rating: numeric("rating", { precision: 3, scale: 2 }).default(sql`0`),
+    bestseller: boolean("bestseller").default(false),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+    sellerId: text("user_id")
+      .notNull()
+      .references(() => user.id),
+  },
+  (example) => ({
+    nameIndex: index("name_idx").on(example.name),
+    genreIndex: index("genre_idx").on(example.genre),
+  }),
+);
+
+/**
+ * Zod select schema
+ */
+export const comicsSelectSchema = createSelectSchema(comics);
+
+/**
+ * comicSelectModel is best for applcation wide type usage as it includes default values and database generated values
+ * comicInsertModel is only useful for inserting into the database
+ * because values with defaults are left optional and values generated on the database are not included
+ */
+export type comicSelectModel = InferSelectModel<typeof comics>;

@@ -9,7 +9,6 @@ import { redirect } from "next/navigation";
 import { User } from "lucide-react";
 const Header = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
-
   return (
     <header className="mx-[10%] flex items-center justify-between gap-2 p-2">
       <Link href={"/home"}>
@@ -46,6 +45,15 @@ const Header = async () => {
             </Button>
           </Link>
         </>
+      )}
+      {session?.user.hasAdministratorPrivileges ? (
+        <>
+          <Link href={"/admin"} className="flex">
+            <Button>Admin</Button>
+          </Link>
+        </>
+      ) : (
+        <></>
       )}
       <button className="sm:hidden">sidebar</button>
     </header>

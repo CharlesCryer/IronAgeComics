@@ -1,6 +1,6 @@
 {
-  "id": "a90314f2-f2e4-4ff0-bf4c-b6b6abb4e3fe",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "a6f90a9a-1b2e-4102-b609-a6860deaa9a1",
+  "prevId": "5536cec2-ed39-488d-a631-9a8d8752a64b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -413,7 +413,8 @@
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "NULL"
         },
         "created_at": {
           "name": "created_at",
@@ -431,7 +432,7 @@
           "name": "has_administrator_privileges",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         }
       },

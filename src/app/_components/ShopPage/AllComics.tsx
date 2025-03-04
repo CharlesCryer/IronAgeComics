@@ -5,7 +5,10 @@ import { type comicSelectModel } from "@/server/db/schema";
 import { api } from "@/trpc/react";
 import image_icon from "@/../public/image_icon.svg";
 const SearchResults = () => {
-  const comicEntries = api.comic.getAll.useQuery().data;
+  const query = api.comic.getAll.useQuery();
+  if (query.isLoading) {
+    return <h1>loading...</h1>;
+  }
 
   const { currentShoppingCart, setCurrentShoppingCart } =
     useShoppingCartContext();
@@ -19,7 +22,7 @@ const SearchResults = () => {
   return (
     <div>
       <div className="my-[5%] grid grid-cols-4 gap-1">
-        {comicEntries?.map((entry, i) => {
+        {query.data?.map((entry, i) => {
           return (
             <div key={i}>
               <ProductCard

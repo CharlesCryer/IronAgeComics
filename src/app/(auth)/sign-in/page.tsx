@@ -52,17 +52,14 @@ export default function SignIn() {
         callbackURL: "/",
       },
       {
-        onSuccess: () => {
-          form.reset();
-        },
         onError: (ctx) => {
+          console.log(ctx.error);
           if (ctx.error.code == "INVALID_EMAIL_OR_PASSWORD") {
             form.setError("password", {
               type: "manual",
               message: "Invalid email or password.",
             });
           }
-          // alert(JSON.stringify(ctx.error));
           setIsSubmitting(false);
         },
       },

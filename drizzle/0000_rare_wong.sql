@@ -32,7 +32,8 @@ CREATE TABLE "ironaget3v2_Comic" (
 	"rating" numeric(3, 2) DEFAULT 0,
 	"bestseller" boolean DEFAULT false,
 	"created_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp with time zone
+	"updated_at" timestamp with time zone,
+	"user_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "session" (
@@ -55,6 +56,7 @@ CREATE TABLE "user" (
 	"image" text,
 	"created_at" timestamp NOT NULL,
 	"updated_at" timestamp NOT NULL,
+	"has_administrator_privileges" boolean DEFAULT false,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -68,6 +70,7 @@ CREATE TABLE "verification" (
 );
 --> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "ironaget3v2_Comic" ADD CONSTRAINT "ironaget3v2_Comic_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "name_idx" ON "ironaget3v2_Comic" USING btree ("name");--> statement-breakpoint
 CREATE INDEX "genre_idx" ON "ironaget3v2_Comic" USING btree ("genre");
