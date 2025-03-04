@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/lib/shadcn/components/ui/input";
-import { FormEvent } from "react";
+import { type FormEvent } from "react";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { api } from "@/trpc/react";
 import { Button } from "@/lib/shadcn/components/ui/button";
@@ -13,7 +13,9 @@ export default function AddComicPage() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const name = formData.get("name")?.toString() ?? "";
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const price = formData.get("price")?.toString() ?? "";
     const sellerId = session.data?.user.id;
     if (!sellerId) {
