@@ -79,7 +79,7 @@ export const comics = pgTable(
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
     name: varchar("name", { length: 256 }).notNull(),
     description: text("description"),
-    imageUrl: varchar("image_url", { length: 512 }),
+    imageKey: varchar("image_key", { length: 512 }),
     price: numeric("price", { precision: 10, scale: 2 }).notNull(),
     currency: varchar("currency", { length: 3 }).default("USD").notNull(),
     stock: integer("stock").default(0).notNull(),

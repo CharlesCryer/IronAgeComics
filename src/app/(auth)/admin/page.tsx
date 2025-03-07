@@ -1,12 +1,12 @@
+import AdminComics from "@/app/_components/AdminPage/AdminComics";
 import { auth } from "@/lib/better-auth/auth";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import CurrentListings from "./listings";
+import { headers } from "next/headers";
 
 export default async function AdminPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user.hasAdministratorPrivileges) {
-    redirect("/home");
+  if (!session?.user.id) {
+    redirect("/sign-in");
   }
-  return <CurrentListings userId={session.user.id} />;
+  return <AdminComics userId={session.user.id} />;
 }

@@ -9,6 +9,11 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
     STRIPE_SECRET_KEY: z.string(),
+    R2_API_ENDPOINT: z.string(),
+    R2_TOKEN: z.string(),
+    R2_BUCKET_NAME: z.string(),
+    R2_ACCESS_KEY: z.string(),
+    R2_SECRET_KEY: z.string(),
     BETTER_AUTH_SECRET: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
@@ -31,6 +36,11 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
+    R2_BUCKET_NAME: process.env.R2_BUCKET_NAME,
+    R2_API_ENDPOINT: process.env.R2_API_ENDPOINT,
+    R2_ACCESS_KEY: process.env.R2_ACCESS_KEY,
+    R2_SECRET_KEY: process.env.R2_SECRET_KEY,
+    R2_TOKEN: process.env.R2_TOKEN,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,

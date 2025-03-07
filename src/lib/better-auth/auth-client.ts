@@ -6,7 +6,7 @@ export const authClient = createAuthClient({
     additionalFields: {
       hasAdministratorPrivileges: {
         type: "boolean",
-        required: true,
+        required: false,
         defaultValue: false,
         input: false, // don't allow user to set role
       },

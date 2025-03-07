@@ -1,6 +1,6 @@
 {
-  "id": "5536cec2-ed39-488d-a631-9a8d8752a64b",
-  "prevId": "a90314f2-f2e4-4ff0-bf4c-b6b6abb4e3fe",
+  "id": "ad040c9c-ce45-4150-994e-5f52aa3e300e",
+  "prevId": "5317d2c2-d0e4-4ec6-b232-26e8ca071916",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -109,8 +109,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.ironaget3v2_Comic": {
-      "name": "ironaget3v2_Comic",
+    "public.Comic": {
+      "name": "Comic",
       "schema": "",
       "columns": {
         "id": {
@@ -120,7 +120,7 @@
           "notNull": true,
           "identity": {
             "type": "byDefault",
-            "name": "ironaget3v2_Comic_id_seq",
+            "name": "Comic_id_seq",
             "schema": "public",
             "increment": "1",
             "startWith": "1",
@@ -142,8 +142,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "image_url": {
-          "name": "image_url",
+        "image_key": {
+          "name": "image_key",
           "type": "varchar(512)",
           "primaryKey": false,
           "notNull": false
@@ -278,9 +278,9 @@
         }
       },
       "foreignKeys": {
-        "ironaget3v2_Comic_user_id_user_id_fk": {
-          "name": "ironaget3v2_Comic_user_id_user_id_fk",
-          "tableFrom": "ironaget3v2_Comic",
+        "Comic_user_id_user_id_fk": {
+          "name": "Comic_user_id_user_id_fk",
+          "tableFrom": "Comic",
           "tableTo": "user",
           "columnsFrom": [
             "user_id"
@@ -413,7 +413,8 @@
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "NULL"
         },
         "created_at": {
           "name": "created_at",

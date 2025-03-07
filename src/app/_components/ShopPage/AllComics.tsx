@@ -29,7 +29,7 @@ const SearchResults = () => {
                   title={entry.name}
                   price={entry.price}
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  imageSrc={image_icon}
+                  imageURL={entry.url}
                 />
                 <button onClick={() => addToCart(entry)}>add to cart</button>
               </div>

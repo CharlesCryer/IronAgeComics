@@ -1,1 +1,0 @@
-ALTER TABLE "user" ALTER COLUMN "has_administrator_privileges" SET NOT NULL;

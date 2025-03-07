@@ -58,7 +58,6 @@ export default function SignUp() {
       {
         onRequest: undefined,
         onSuccess: () => {
-          form.reset();
           router.push("/sign-in");
         },
         onError: (ctx) => {
