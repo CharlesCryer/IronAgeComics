@@ -26,13 +26,13 @@ const ProductCard = ({
     return <h1>loading...</h1>;
   }
   return (
-    <Card>
-      <CardContent className="flex flex-col items-center justify-center p-6">
+    <Card className="flex justify-center">
+      <CardContent className="flex h-32 w-32 flex-col items-center justify-center p-6">
         <Image
           alt={"no image found"}
           src={image ?? image_icon}
-          className="h-32 w-32 object-cover"
-          fill
+          width={80}
+          height={80}
         />
         <h1>{title}</h1>
         <h2>{price}</h2>

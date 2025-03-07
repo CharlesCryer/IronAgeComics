@@ -15,7 +15,7 @@ const Header = async () => {
       className="flex items-center justify-between gap-2 p-2 px-[10%]"
       style={{ backgroundColor: "#e14620" }}
     >
-      <Link href={"/home"}>
+      <Link href={"/home"} className="relative h-24 w-24">
         <Image src="/headerLogo.png" fill alt="No image available" />
       </Link>
       <SearchBar />
