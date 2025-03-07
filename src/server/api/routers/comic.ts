@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import { v4 as uuidv4 } from "uuid";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { comics } from "@/server/db/schema";
 import { like, eq } from "drizzle-orm";
@@ -7,6 +7,7 @@ import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import { env } from "@/env";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -88,7 +89,7 @@ export const comicRouter = createTRPCRouter({
         S3,
         new PutObjectCommand({
           Bucket: env.R2_BUCKET_NAME,
-          Key: input.imageName,
+          Key: uuidv4(),
         }),
         { expiresIn: 3600 },
       );
@@ -105,6 +106,17 @@ export const comicRouter = createTRPCRouter({
       return signedURL;
     }),
   delete: publicProcedure.input(z.number()).mutation(async ({ ctx, input }) => {
-    await ctx.db.delete(comics).where(eq(comics.id, input));
+    const comic = await ctx.db
+      .delete(comics)
+      .where(eq(comics.id, input))
+      .returning();
+    if (!!comic[0] && !!comic[0].imageKey) {
+      S3.send(
+        new DeleteObjectCommand({
+          Bucket: env.R2_BUCKET_NAME,
+          Key: comic[0].imageKey,
+        }),
+      );
+    }
   }),
 });

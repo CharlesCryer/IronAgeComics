@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import image_icon from "@/../public/image_icon.svg";
 const ProductCard = ({
@@ -25,10 +24,10 @@ const ProductCard = ({
   }
   return (
     <div className="flex flex-col items-center justify-center border p-6">
-      <Image
+      <img
         alt={"no image found"}
-        width={100}
-        height={100}
+        width={"auto"}
+        height={"auto"}
         src={image ?? image_icon}
       />
       <h1>{title}</h1>
