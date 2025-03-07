@@ -17,15 +17,15 @@ export default function AdminComics({ userId }: { userId: string }) {
       <div className="my-[5%] grid grid-cols-4 gap-1">
         {query.data.map((entry, i) => {
           return (
-            <div key={entry.id}>
+            <div key={entry.comic.id}>
               <div className="flex flex-col items-center justify-center">
                 <ProductCard
-                  title={entry.name}
-                  price={entry.price}
+                  title={entry.comic.name}
+                  price={entry.comic.price}
                   imageURL={entry.url}
                 />
                 <DeleteButton
-                  id={entry.id}
+                  id={entry.comic.id}
                   onDelete={async () => {
                     await query.refetch();
                   }}

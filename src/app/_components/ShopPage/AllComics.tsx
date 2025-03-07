@@ -25,12 +25,14 @@ const SearchResults = () => {
             return (
               <div key={i}>
                 <ProductCard
-                  title={entry.name}
-                  price={entry.price}
+                  title={entry.comic.name}
+                  price={entry.comic.price}
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   imageURL={entry.url}
                 />
-                <button onClick={() => addToCart(entry)}>add to cart</button>
+                <button onClick={() => addToCart(entry.comic)}>
+                  add to cart
+                </button>
               </div>
             );
           })}{" "}

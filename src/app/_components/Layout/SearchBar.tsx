@@ -20,7 +20,7 @@ const SearchBar = () => {
   return (
     <form onSubmit={handleSearch} className="flex min-w-0 grow">
       <Input
-        className="mx-[10%] flex grow"
+        className="mx-[10%] flex grow rounded-2xl py-8"
         value={searchInputValue}
         placeholder={"search"}
         onChange={handleInputChange}

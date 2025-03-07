@@ -1,5 +1,7 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import image_icon from "@/../public/image_icon.svg";
+import { Card, CardContent } from "@/lib/shadcn/components/ui/card";
 const ProductCard = ({
   title,
   price,
@@ -23,16 +25,17 @@ const ProductCard = ({
     return <h1>loading...</h1>;
   }
   return (
-    <div className="flex flex-col items-center justify-center border p-6">
-      <img
-        alt={"no image found"}
-        width={"auto"}
-        height={"auto"}
-        src={image ?? image_icon}
-      />
-      <h1>{title}</h1>
-      <h2>{price}</h2>
-    </div>
+    <Card>
+      <CardContent className="flex flex-col items-center justify-center p-6">
+        <img
+          alt={"no image found"}
+          src={image ?? image_icon}
+          className="h-32 w-32 object-cover"
+        />
+        <h1>{title}</h1>
+        <h2>{price}</h2>
+      </CardContent>
+    </Card>
   );
 };
 

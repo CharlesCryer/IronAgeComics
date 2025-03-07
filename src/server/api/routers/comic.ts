@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { comics } from "@/server/db/schema";
-import { like, eq } from "drizzle-orm";
+import { comics, comicSelectModel } from "@/server/db/schema";
+import { like, eq, desc } from "drizzle-orm";
 import {
   S3Client,
   GetObjectCommand,
@@ -24,35 +24,15 @@ export const comicRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const comics = await ctx.db.query.comics.findMany();
 
-    const comicsWithUrls = await Promise.all(
-      comics.map(async (comic) => {
-        const command = new GetObjectCommand({
-          Bucket: env.R2_BUCKET_NAME,
-          Key: comic.imageKey!,
-        });
-        const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-        return { ...comic, url: url };
-      }),
-    );
-
-    return comicsWithUrls;
+    return await addURLToImages(comics);
   }),
   search: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     const comicsList = await ctx.db
       .select()
       .from(comics)
       .where(like(comics.name, `%${input}%`));
-    const comicsWithUrls = await Promise.all(
-      comicsList.map(async (comic) => {
-        const command = new GetObjectCommand({
-          Bucket: env.R2_BUCKET_NAME,
-          Key: comic.imageKey!,
-        });
-        const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-        return { ...comic, url: url };
-      }),
-    );
-    return comicsWithUrls;
+
+    return await addURLToImages(comicsList);
   }),
   getAllFromSellerId: publicProcedure
     .input(z.string())
@@ -62,18 +42,18 @@ export const comicRouter = createTRPCRouter({
         .from(comics)
         .where(eq(comics.sellerId, input));
 
-      const comicsWithUrls = await Promise.all(
-        comicsList.map(async (comic) => {
-          const command = new GetObjectCommand({
-            Bucket: env.R2_BUCKET_NAME,
-            Key: comic.imageKey!,
-          });
-          const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-          return { ...comic, url: url };
-        }),
-      );
+      return await addURLToImages(comicsList);
+    }),
+  getComicsWithHighestPrice: publicProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const comicsList = await ctx.db
+        .select()
+        .from(comics)
+        .orderBy(desc(comics.price))
+        .limit(input);
 
-      return comicsWithUrls;
+      return await addURLToImages(comicsList);
     }),
   create: publicProcedure
     .input(
@@ -121,3 +101,24 @@ export const comicRouter = createTRPCRouter({
     }
   }),
 });
+
+/**
+ * Gets a signed URL for object with corresponding imageKey from R2 bucket
+ * adds it to a 'url' field for all comics in the list
+ * @param comics
+ * @returns
+ */
+async function addURLToImages(comics: comicSelectModel[]) {
+  const comicsWithURLs = await Promise.all(
+    comics.map(async (comic) => {
+      const command = new GetObjectCommand({
+        Bucket: env.R2_BUCKET_NAME,
+        Key: comic.imageKey!,
+      });
+      const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+      return { comic: comic, url: url };
+    }),
+  );
+
+  return comicsWithURLs;
+}
