@@ -13,8 +13,8 @@ const ProductCard = ({
   useEffect(() => {
     async function fetchImage() {
       const response = await fetch(imageURL);
-      const blob = await response.blob(); // Fetch the image as a Blob
-      const objectUrl = URL.createObjectURL(blob); // Create a URL for the blob
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
       setImage(objectUrl);
     }
     void fetchImage();

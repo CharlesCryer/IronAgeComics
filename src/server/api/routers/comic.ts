@@ -85,11 +85,12 @@ export const comicRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const imageKey = uuidv4();
       const signedURL = await getSignedUrl(
         S3,
         new PutObjectCommand({
           Bucket: env.R2_BUCKET_NAME,
-          Key: uuidv4(),
+          Key: imageKey,
         }),
         { expiresIn: 3600 },
       );
@@ -99,7 +100,7 @@ export const comicRouter = createTRPCRouter({
           name: input.name,
           price: input.price,
           sellerId: input.sellerId,
-          imageKey: input.imageName,
+          imageKey: imageKey,
         })
         .returning();
 
