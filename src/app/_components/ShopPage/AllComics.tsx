@@ -3,7 +3,6 @@ import { useShoppingCartContext } from "@/context/shoppingCartContext";
 import ProductCard from "./ProductCard";
 import { type comicSelectModel } from "@/server/db/schema";
 import { api } from "@/trpc/react";
-import image_icon from "@/../public/image_icon.svg";
 const SearchResults = () => {
   const query = api.comic.getAll.useQuery();
 

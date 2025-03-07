@@ -5,8 +5,6 @@ import { comics } from "@/server/db/schema";
 import { like, eq } from "drizzle-orm";
 import {
   S3Client,
-  ListBucketsCommand,
-  ListObjectsV2Command,
   GetObjectCommand,
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
@@ -29,7 +27,7 @@ export const comicRouter = createTRPCRouter({
       comics.map(async (comic) => {
         const command = new GetObjectCommand({
           Bucket: env.R2_BUCKET_NAME,
-          Key: comic.imageKey as string,
+          Key: comic.imageKey!,
         });
         const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
         return { ...comic, url: url };
@@ -39,10 +37,21 @@ export const comicRouter = createTRPCRouter({
     return comicsWithUrls;
   }),
   search: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return await ctx.db
+    const comicsList = await ctx.db
       .select()
       .from(comics)
       .where(like(comics.name, `%${input}%`));
+    const comicsWithUrls = await Promise.all(
+      comicsList.map(async (comic) => {
+        const command = new GetObjectCommand({
+          Bucket: env.R2_BUCKET_NAME,
+          Key: comic.imageKey!,
+        });
+        const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+        return { ...comic, url: url };
+      }),
+    );
+    return comicsWithUrls;
   }),
   getAllFromSellerId: publicProcedure
     .input(z.string())
@@ -56,7 +65,7 @@ export const comicRouter = createTRPCRouter({
         comicsList.map(async (comic) => {
           const command = new GetObjectCommand({
             Bucket: env.R2_BUCKET_NAME,
-            Key: comic.imageKey as string,
+            Key: comic.imageKey!,
           });
           const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
           return { ...comic, url: url };
@@ -83,7 +92,7 @@ export const comicRouter = createTRPCRouter({
         }),
         { expiresIn: 3600 },
       );
-      const newComic = await ctx.db
+      await ctx.db
         .insert(comics)
         .values({
           name: input.name,

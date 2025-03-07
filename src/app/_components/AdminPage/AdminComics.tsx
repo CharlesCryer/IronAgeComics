@@ -1,7 +1,5 @@
 "use client";
 import { api } from "@/trpc/react";
-import Image from "next/image";
-import image_icon from "@/../public/image_icon.svg";
 import { Button } from "@/lib/shadcn/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -28,8 +26,8 @@ export default function AdminComics({ userId }: { userId: string }) {
                 />
                 <DeleteButton
                   id={entry.id}
-                  onDelete={() => {
-                    query.refetch();
+                  onDelete={async () => {
+                    await query.refetch();
                   }}
                 />
               </div>

@@ -4,18 +4,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { type comicSelectModel } from "@/server/db/schema";
 import ProductCard from "./ProductCard";
-import image_icon from "@/../public/image_icon.svg";
 import { api } from "@/trpc/react";
 const SearchResults = () => {
   const searchParams = useSearchParams();
   const title = searchParams.get("title");
   const router = useRouter();
-  let comicEntries: comicSelectModel[] | undefined;
-  if (title === null) {
-    router.push("/shop");
-  } else {
-    comicEntries = api.comic.search.useQuery(title).data;
-  }
 
   const { currentShoppingCart, setCurrentShoppingCart } =
     useShoppingCartContext();
@@ -28,6 +21,12 @@ const SearchResults = () => {
       setCurrentShoppingCart([...currentShoppingCart, newComic]);
     }
   };
+  if (title === null) {
+    router.push("/shop");
+    return <h1>loading...</h1>;
+  }
+  const comicEntries = api.comic.search.useQuery(title).data;
+
   return (
     <div>
       <div className="flex flex-col items-center">
@@ -42,7 +41,7 @@ const SearchResults = () => {
                 title={entry.name}
                 price={entry.price}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                imageSrc={image_icon}
+                imageURL={entry.url}
               />
               <button onClick={() => addToCart(entry)}>add to cart</button>
             </div>

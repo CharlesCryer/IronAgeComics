@@ -19,7 +19,7 @@ const ProductCard = ({
       setImage(objectUrl);
     }
     void fetchImage();
-  }, []);
+  }, [imageURL]);
   if (!image) {
     return <h1>loading...</h1>;
   }
