@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import image_icon from "@/../public/image_icon.svg";
 import { Card, CardContent } from "@/lib/shadcn/components/ui/card";
+import Image from "next/image";
 const ProductCard = ({
   title,
   price,
@@ -27,10 +28,11 @@ const ProductCard = ({
   return (
     <Card>
       <CardContent className="flex flex-col items-center justify-center p-6">
-        <img
+        <Image
           alt={"no image found"}
           src={image ?? image_icon}
           className="h-32 w-32 object-cover"
+          fill
         />
         <h1>{title}</h1>
         <h2>{price}</h2>

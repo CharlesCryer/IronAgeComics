@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { comics, comicSelectModel } from "@/server/db/schema";
+import { comics, type comicSelectModel } from "@/server/db/schema";
 import { like, eq, desc } from "drizzle-orm";
 import {
   S3Client,
@@ -92,7 +92,7 @@ export const comicRouter = createTRPCRouter({
       .where(eq(comics.id, input))
       .returning();
     if (!!comic[0] && !!comic[0].imageKey) {
-      S3.send(
+      await S3.send(
         new DeleteObjectCommand({
           Bucket: env.R2_BUCKET_NAME,
           Key: comic[0].imageKey,

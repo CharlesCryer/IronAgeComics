@@ -4,13 +4,11 @@ import { type FormEvent } from "react";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { api } from "@/trpc/react";
 import { Button } from "@/lib/shadcn/components/ui/button";
-import { useRouter } from "next/navigation";
 import { Label } from "@/lib/shadcn/components/ui/label";
 
 export default function AddComicPage() {
   const session = authClient.useSession();
   const mutation = api.comic.create.useMutation();
-  const router = useRouter();
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);

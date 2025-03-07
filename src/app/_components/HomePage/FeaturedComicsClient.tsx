@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/lib/shadcn/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -6,7 +5,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/lib/shadcn/components/ui/carousel";
-import { comicSelectModel } from "@/server/db/schema";
+import { type comicSelectModel } from "@/server/db/schema";
 import ProductCard from "../ShopPage/ProductCard";
 
 export default function FeatureComicsClient({

@@ -7,7 +7,7 @@ import { Button } from "@/lib/shadcn/components/ui/button";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { User } from "lucide-react";
-import headerLogo from "../../../../public/headerLogo.png";
+import Image from "next/image";
 const Header = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
   return (
@@ -16,7 +16,7 @@ const Header = async () => {
       style={{ backgroundColor: "#e14620" }}
     >
       <Link href={"/home"}>
-        <img src="/headerLogo.png" />
+        <Image src="/headerLogo.png" fill alt="No image available" />
       </Link>
       <SearchBar />
       <div className="hidden items-center sm:flex">

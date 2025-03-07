@@ -1,14 +1,4 @@
 import * as React from "react";
-
-import { Card, CardContent } from "@/lib/shadcn/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/lib/shadcn/components/ui/carousel";
-import ProductCard from "../ShopPage/ProductCard";
 import { api } from "@/trpc/server";
 import FeatureComicsClient from "./FeaturedComicsClient";
 import { Button } from "@/lib/shadcn/components/ui/button";
