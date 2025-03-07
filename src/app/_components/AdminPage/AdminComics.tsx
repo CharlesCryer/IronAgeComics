@@ -17,7 +17,7 @@ export default function AdminComics({ userId }: { userId: string }) {
       <div className="my-[5%] grid grid-cols-4 gap-1">
         {query.data.map((entry, i) => {
           return (
-            <div key={i}>
+            <div key={entry.id}>
               <div className="flex flex-col items-center justify-center">
                 <ProductCard
                   title={entry.name}
