@@ -46,7 +46,7 @@ export default function AddComicPage() {
 
       if (response.ok) {
         console.log("Image uploaded successfully!");
-        router.push("/admin");
+        window.location.href = "/admin";
       } else {
         console.error("Failed to upload image", response.statusText);
       }
