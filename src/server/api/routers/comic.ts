@@ -21,19 +21,33 @@ const S3 = new S3Client({
 });
 
 export const comicRouter = createTRPCRouter({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    const comics = await ctx.db.query.comics.findMany();
+  getAllFromPage: publicProcedure
+    .input(z.number().refine((num) => num > 0))
+    .query(async ({ ctx, input }) => {
+      const comics = await ctx.db.query.comics.findMany({
+        limit: 32,
+        offset: (input - 1) * 32,
+      });
 
-    return await addURLToImages(comics);
-  }),
-  search: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    const comicsList = await ctx.db
-      .select()
-      .from(comics)
-      .where(like(comics.name, `%${input}%`));
+      return await addURLToImages(comics);
+    }),
+  searchFromPage: publicProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        page: z.number().refine((num) => num > 0),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const comicsList = await ctx.db
+        .select()
+        .from(comics)
+        .where(like(comics.name, `%${input.title}%`))
+        .limit(32)
+        .offset((input.page - 1) * 32);
 
-    return await addURLToImages(comicsList);
-  }),
+      return await addURLToImages(comicsList);
+    }),
   getAllFromSellerId: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {

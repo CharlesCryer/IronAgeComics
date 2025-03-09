@@ -1,13 +1,13 @@
 import React from "react";
 import SearchBar from "./SearchBar";
-import ViewCartButton from "./ViewCartButton";
 import Link from "next/link";
 import { auth } from "@/lib/better-auth/auth";
-import { Button } from "@/lib/shadcn/components/ui/button";
+import { Button, buttonVariants } from "@/lib/shadcn/components/ui/button";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { User } from "lucide-react";
+import { Menu, ShoppingCart, User } from "lucide-react";
 import Image from "next/image";
+import { SheetTrigger } from "@/lib/shadcn/components/ui/sheet";
 const Header = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
   return (
@@ -20,14 +20,31 @@ const Header = async () => {
       </Link>
       <SearchBar />
       <div className="hidden items-center sm:flex">
-        <ViewCartButton />
+        <div className="flex items-center">
+          <Link
+            href={"/cart"}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            <ShoppingCart />
+          </Link>
+        </div>
       </div>
       {!session ? (
         <>
-          <Link href={"/sign-in"} className="hidden sm:block">
+          <Link
+            href={"/sign-in"}
+            className={
+              "hidden sm:block" + " " + buttonVariants({ variant: "outline" })
+            }
+          >
             Login
           </Link>
-          <Link href={"/sign-up"} className="hidden sm:block">
+          <Link
+            href={"/sign-up"}
+            className={
+              "hidden sm:block" + " " + buttonVariants({ variant: "outline" })
+            }
+          >
             register
           </Link>
         </>
@@ -40,26 +57,38 @@ const Header = async () => {
               redirect("/");
             }}
           >
-            <Button>Sign out</Button>
-          </form>
-          <Link href={"/profile"} className="flex">
-            <Button>
-              <User />
-              Profile
+            <Button variant={"outline"} className="hidden sm:block">
+              Sign out
             </Button>
+          </form>
+          <Link
+            href={"/profile"}
+            className={
+              buttonVariants({ variant: "outline" }) + " hidden sm:flex"
+            }
+          >
+            <User />
+            Profile
           </Link>
         </>
       )}
       {session?.user.hasAdministratorPrivileges ? (
         <>
-          <Link href={"/admin"} className="flex">
-            <Button>Admin</Button>
+          <Link
+            href={"/admin"}
+            className={
+              buttonVariants({ variant: "outline" }) + " hidden sm:block"
+            }
+          >
+            Admin
           </Link>
         </>
       ) : (
         <></>
       )}
-      <button className="sm:hidden">sidebar</button>
+      <SheetTrigger asChild className="cursor-pointer sm:hidden">
+        <Menu />
+      </SheetTrigger>
     </header>
   );
 };

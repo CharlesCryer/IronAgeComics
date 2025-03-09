@@ -1,10 +1,11 @@
 "use client";
 import { api } from "@/trpc/react";
-import { Button } from "@/lib/shadcn/components/ui/button";
+import { Button, buttonVariants } from "@/lib/shadcn/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import ProductCard from "../ShopPage/ProductCard";
+import ProductCardNoContext from "../ShopPage/ProductCardNoContext";
 
 export default function AdminComics({ userId }: { userId: string }) {
   const query = api.comic.getAllFromSellerId.useQuery(userId);
@@ -19,9 +20,8 @@ export default function AdminComics({ userId }: { userId: string }) {
           return (
             <div key={entry.comic.id}>
               <div className="flex flex-col items-center justify-center">
-                <ProductCard
-                  title={entry.comic.name}
-                  price={entry.comic.price}
+                <ProductCardNoContext
+                  comic={entry.comic}
                   imageURL={entry.url}
                 />
                 <DeleteButton
@@ -36,8 +36,11 @@ export default function AdminComics({ userId }: { userId: string }) {
         })}
       </div>
       <div className="flex justify-center">
-        <Link href={"/admin/add-comic"}>
-          <Button>Add new</Button>
+        <Link
+          href={"/admin/add-comic"}
+          className={buttonVariants({ variant: "outline" })}
+        >
+          Add new
         </Link>
       </div>
     </div>

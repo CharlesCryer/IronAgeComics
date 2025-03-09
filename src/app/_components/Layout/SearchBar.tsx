@@ -14,7 +14,7 @@ const SearchBar = () => {
   // Reroutes the page on search
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/shop/search?title=${searchInputValue}`);
+    router.push(`/shop?title=${searchInputValue}`);
   };
 
   return (
