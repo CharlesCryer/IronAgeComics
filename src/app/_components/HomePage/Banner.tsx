@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import {
@@ -10,6 +9,7 @@ import {
 const Banner = () => {
   return (
     <div className="flex justify-evenly">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={"/bannerLogo.png"}
         alt={"image not available"}
@@ -28,6 +28,7 @@ const Banner = () => {
           <CarouselItem>
             <div className="flex justify-center">
               <div className="relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={"/MarvelGenre.png"}
                   alt={"image not available"}
@@ -39,6 +40,7 @@ const Banner = () => {
           <CarouselItem>
             <div className="flex justify-center">
               <div className="relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={"/DCGenre.png"}
                   alt={"image not available"}

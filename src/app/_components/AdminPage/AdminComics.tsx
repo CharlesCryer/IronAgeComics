@@ -4,7 +4,6 @@ import { Button, buttonVariants } from "@/lib/shadcn/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import ProductCard from "../ShopPage/ProductCard";
 import ProductCardNoContext from "../ShopPage/ProductCardNoContext";
 
 export default function AdminComics({ userId }: { userId: string }) {

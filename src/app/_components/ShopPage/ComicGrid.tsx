@@ -1,7 +1,5 @@
-"use client";
 import ShopPagination from "@/app/_components/ShopPage/ShopPagination";
 import ProductCard from "@/app/_components/ShopPage/ProductCard";
-import { useShoppingCartContext } from "@/context/shoppingCartContext";
 import { type comicSelectModel } from "@/server/db/schema";
 
 export default function ComicGrid({

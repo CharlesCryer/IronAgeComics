@@ -1,13 +1,5 @@
 import { Button, buttonVariants } from "@/lib/shadcn/components/ui/button";
-import {
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-  SheetClose,
-  Sheet,
-} from "@/lib/shadcn/components/ui/sheet";
+import { SheetContent, SheetTitle } from "@/lib/shadcn/components/ui/sheet";
 import { auth } from "@/lib/better-auth/auth";
 import { ShoppingCart, User } from "lucide-react";
 import { headers } from "next/headers";

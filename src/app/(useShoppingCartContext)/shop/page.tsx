@@ -1,11 +1,10 @@
 import { api } from "@/trpc/server";
-import { redirect } from "next/navigation";
 import ComicGrid from "@/app/_components/ShopPage/ComicGrid";
-import { comicSelectModel } from "@/server/db/schema";
+import { type comicSelectModel } from "@/server/db/schema";
 export default async function Shop({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { title, page } = await searchParams;
   let pageNumber = Number(page);
