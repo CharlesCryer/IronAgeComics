@@ -2,7 +2,7 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { comics, type comicSelectModel } from "@/server/db/schema";
-import { like, eq, desc } from "drizzle-orm";
+import { ilike, eq, desc } from "drizzle-orm";
 import {
   S3Client,
   GetObjectCommand,
@@ -42,7 +42,7 @@ export const comicRouter = createTRPCRouter({
       const comicsList = await ctx.db
         .select()
         .from(comics)
-        .where(like(comics.name, `%${input.title}%`))
+        .where(ilike(comics.name, `%${input.title}%`))
         .limit(32)
         .offset((input.page - 1) * 32);
 

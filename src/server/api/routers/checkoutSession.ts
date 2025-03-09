@@ -15,7 +15,7 @@ export const checkoutSessionRouter = createTRPCRouter({
         ui_mode: "embedded",
         line_items: shoppingCartItems.map((item) => ({
           price_data: {
-            unit_amount: Number(item.price) * 1000,
+            unit_amount: Number(item.price) * 100,
             currency: "nzd",
             product_data: {
               name: item.name,
