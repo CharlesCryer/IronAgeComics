@@ -9,7 +9,9 @@ Features
 - Shopping Cart: Users can add products to the cart and proceed to checkout.
 - Responsive Design: Fully mobile-friendly interface built with Tailwind CSS.
 - Payment Integration: Allows users to complete purchases securely.
-  Technologies Used
+
+Technologies Used
+
 - Next.js: Framework for building the full-stack React application.
 - React: Frontend JavaScript library for building the UI.
 - Tailwind CSS: Utility-first CSS framework for styling the application.
