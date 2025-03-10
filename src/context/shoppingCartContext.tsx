@@ -3,8 +3,10 @@ import { type comicSelectModel } from "@/server/db/schema";
 import {
   createContext,
   type Dispatch,
+  ReactNode,
   type SetStateAction,
   useContext,
+  useState,
 } from "react";
 
 interface ShoppingCartContext {
@@ -24,4 +26,22 @@ export const useShoppingCartContext = () => {
     );
   }
   return context;
+};
+
+export const ShoppingCartProvider = ({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) => {
+  const [currentShoppingCart, setCurrentShoppingCart] = useState<
+    comicSelectModel[]
+  >([]);
+
+  return (
+    <shoppingCartContext.Provider
+      value={{ currentShoppingCart, setCurrentShoppingCart }}
+    >
+      {children}
+    </shoppingCartContext.Provider>
+  );
 };

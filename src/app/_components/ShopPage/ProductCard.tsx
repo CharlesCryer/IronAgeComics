@@ -38,7 +38,7 @@ const ProductCard = ({
   }
   return (
     <Card className="flex justify-center">
-      <CardContent className="h-50 flex w-32 flex-col items-center justify-center p-6">
+      <CardContent className="h-50 flex w-auto flex-col items-center justify-center p-6">
         <Image
           alt={"no image found"}
           src={image ?? image_icon}
