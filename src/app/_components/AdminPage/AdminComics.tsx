@@ -4,7 +4,7 @@ import { Button, buttonVariants } from "@/lib/shadcn/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import ProductCardNoContext from "../ShopPage/ProductCardNoContext";
+import ProductCard from "../ShopPage/ProductCard";
 
 export default function AdminComics({ userId }: { userId: string }) {
   const query = api.comic.getAllFromSellerId.useQuery(userId);
@@ -19,10 +19,7 @@ export default function AdminComics({ userId }: { userId: string }) {
           return (
             <div key={entry.comic.id}>
               <div className="flex flex-col items-center justify-center">
-                <ProductCardNoContext
-                  comic={entry.comic}
-                  imageURL={entry.url}
-                />
+                <ProductCard comic={entry.comic} imageURL={entry.url} />
                 <DeleteButton
                   id={entry.comic.id}
                   onDelete={async () => {
